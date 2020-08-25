@@ -1,0 +1,24 @@
+server:
+  # 利用Configuration中的Allow running in parallel. 可以启动多个端口的同一项目
+#  port: ${random.int[11121,11129]} # 使用 random.int[min,max] 可以生成指定范围内的随机数、
+  port: 11121
+
+# eureka client
+eureka:
+  instance:
+    prefer-ip-address: true
+#    instance-id: ${spring.application.name}:${server.port}
+    ip-address: 127.0.0.1
+    hostname: localhost
+#    默认值是取spring.application.name、如果2处都没有配置则为unknown.
+#    appname: HELLO-SERVICE-APP-NAME  # 不要配置这个属性、使用Feign远程调用时,生效的是spring.application.name的值,但是eureka registry页面展示的是appname的值
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      # TODO：如果此处不使用驼峰(default-zone)会报错,无法注册到eureka、 execute request on any known server
+      defaultZone: http://localhost:11111/eureka/ # 此处是eureka registry的IP.
+
+spring:
+  application:
+    name: HELLO-SERVICE

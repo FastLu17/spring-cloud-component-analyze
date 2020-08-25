@@ -1,0 +1,33 @@
+server:
+  port: 11141
+
+# eureka client
+eureka:
+  instance:
+    prefer-ip-address: true
+    #    instance-id: FEIGN-SERVICE
+    ip-address: 127.0.0.1
+    hostname: localhost
+    # 服务续约(类似心跳检测).
+    lease-expiration-duration-in-seconds: 90 # 租约过期的持续时间.
+    lease-renewal-interval-in-seconds: 30 # 更新租约的间隔时间.
+  client:
+    fetch-registry: true # 可以拉取服务.
+    register-with-eureka: true # 注册到eureka registry中.
+    service-url:
+      defaultZone: http://localhost:11111/eureka/
+
+spring:
+  application:
+    name: FEIGN-SERVICE
+feign:
+  hystrix:
+    enabled: true # 开启feign的hystrix支持,默认是false
+
+# 指定当前服务远程调用以下微服务时,具体的负载均衡策略.
+HELLO-SERVICE:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+USER-SERVICE:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.BestAvailableRule

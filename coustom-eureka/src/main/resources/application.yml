@@ -1,0 +1,22 @@
+server:
+  port: 11111
+
+# eureka注册中心
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: EUREKA-REGISTRY
+    ip-address: 127.0.0.1
+    hostname: localhost
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      # TODO：如果此处不使用驼峰(default-zone)会报错,无法注册到eureka、 execute request on any known server
+      defaultZone: http://localhost:${server.port}/eureka/
+  # 自我保护：注册中心出现红色警告信息.
+  server:
+    enable-self-preservation: false # 注册中的保护机制、开发时,可以选择关闭.
+spring:
+  application:
+    name: EUREKA-REGISTRY

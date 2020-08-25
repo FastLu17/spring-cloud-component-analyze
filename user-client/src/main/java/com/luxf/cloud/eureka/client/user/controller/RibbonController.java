@@ -1,0 +1,38 @@
+package com.luxf.cloud.eureka.client.user.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * @author 小66
+ * @date 2020-08-22 13:01
+ **/
+@RestController
+public class RibbonController {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @GetMapping("/load-balance")
+    public String loadBalanceTest() {
+        /**
+         * Ribbon主要是用于客户端负载均衡,微服务之间的调用,API网关请求转发等内容.
+         * Feign也是基于Ribbon实现的工具。
+         *
+         * 通过Ribbon的方式实现服务消费.
+         * Ribbon默认采用<P>轮询方式</P>的负载均衡方式调用服务.
+         */
+        ResponseEntity<String> forEntity = restTemplate
+                .getForEntity("http://HELLO-SERVICE/hello", String.class);
+
+//        restTemplate.getForEntity("http://HELLO-SERVICE/hello?name={1}", String.class,"Jack");
+        String forObject = restTemplate.getForObject("http://HELLO-SERVICE/hello", String.class);
+
+        String body = forEntity.getBody();
+        System.out.println("body = " + body);
+        return body;
+    }
+}

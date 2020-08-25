@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/coustom-eureka/coustom-eureka.iml" filepath="$PROJECT_DIR$/coustom-eureka/coustom-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/feign-client/feign-client.iml" filepath="$PROJECT_DIR$/feign-client/feign-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hello-client/hello-client.iml" filepath="$PROJECT_DIR$/hello-client/hello-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hello-service-api/hello-service-api.iml" filepath="$PROJECT_DIR$/hello-service-api/hello-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-client/user-client.iml" filepath="$PROJECT_DIR$/user-client/user-client.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,23 @@
+server:
+  port: 11131
+
+# eureka client
+eureka:
+  instance:
+    prefer-ip-address: true
+#    instance-id: USER-SERVICE
+    ip-address: 127.0.0.1
+    hostname: localhost
+    # 服务租约/续约(类似心跳检测)
+    lease-expiration-duration-in-seconds: 90 # 租约过期的持续时间.
+    lease-renewal-interval-in-seconds: 30 # 租约更新的间隔时间、
+  client:
+    fetch-registry: true # 从registry拉取服务.
+    register-with-eureka: true # 注册到registry中.
+    service-url:
+      # TODO：如果此处不使用驼峰(default-zone)会报错,无法注册到eureka、 execute request on any known server
+      defaultZone: http://localhost:11111/eureka/ # 此处是eureka registry的IP.
+
+spring:
+  application:
+    name: USER-SERVICE
