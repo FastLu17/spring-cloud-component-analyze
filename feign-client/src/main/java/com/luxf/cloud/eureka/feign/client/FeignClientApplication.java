@@ -1,6 +1,10 @@
 package com.luxf.cloud.eureka.feign.client;
 
+import com.netflix.client.IClient;
+import com.netflix.client.config.DefaultClientConfigImpl;
+import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.*;
+import feign.Client;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
@@ -9,11 +13,22 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.cloud.netflix.ribbon.RibbonClientName;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.ribbon.FeignLoadBalancer;
+import org.springframework.cloud.openfeign.ribbon.LoadBalancerFeignClient;
 
 
 /**
+ * TODO：对于{@link FeignClient}的接口发起HTTP请求大致流程：
+ * 1、先是openfeign开放了一个{@link Client}接口用于http请求，并且{@link LoadBalancerFeignClient}作为该HTTP请求Client的实现类.
+ * 2、利用{@link LoadBalancerFeignClient#lbClient(String)}直接构造了有关Ribbon的{@link IClient}接口的实现类{@link FeignLoadBalancer},执行executeWithLoadBalancer()方法.
+ * 3、执行Ribbon的request之前，先委托{@link ILoadBalancer}负载均衡器选择一个{@link Server},然后回调执行request请求.
+ * 4、ILoadBalancer会选择{@link IRule}实现的负载均衡算法来获取一个Server,并返回.
+ * <p>
  * Ribbon的负载均衡策略默认是{@link ZoneAvoidanceRule}、
  *
+ * @see RibbonClientConfiguration#ribbonRule(IClientConfig)
+ * @see RibbonClientConfiguration#ribbonClientConfig() 会初始化{@link DefaultClientConfigImpl}
+ * <p>
  * Feign 已经集成了 Ribbon的负载均衡策略。
  * 在具体开发中, 不会使用Ribbon的请求方式进行服务间的调用, 而是使用Feign的声明式接口服务调用！
  * <p>
