@@ -1,10 +1,15 @@
 package com.luxf.cloud.eureka.client.user.controller;
 
+import com.luxf.cloud.eureka.client.user.anno.MyLoadBalanced;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author 小66
@@ -16,8 +21,13 @@ public class RibbonController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @MyLoadBalanced
+    @Autowired
+    private List<RestTemplate> templateList = Collections.emptyList();
+
     @GetMapping("/load-balance")
     public String loadBalanceTest() {
+        System.out.println("templateList.size() = " + templateList.size());
         /**
          * Ribbon主要是用于客户端负载均衡,微服务之间的调用,API网关请求转发等内容.
          * Feign也是基于Ribbon实现的工具。
