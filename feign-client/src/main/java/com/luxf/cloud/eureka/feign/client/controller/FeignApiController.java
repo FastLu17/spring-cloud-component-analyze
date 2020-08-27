@@ -19,6 +19,7 @@ import org.springframework.cloud.openfeign.FeignContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -31,6 +32,7 @@ import java.util.Map;
  * @date 2020-08-23 13:02
  **/
 @RestController
+@RequestMapping("/feign-client/secure")
 public class FeignApiController {
 
     /**
@@ -51,6 +53,9 @@ public class FeignApiController {
     @GetMapping("api-port")
     @HystrixCommand(fallbackMethod = "getPortFallbackMethod")// 使用@HystrixCommand注解也可以配置降级方法。
     public String getPort() {
+        String currentPort = ApplicationContextHelper.getEnvironment().getProperty("server.port");
+        System.out.println("currentPort = " + currentPort);
+
         System.out.println("contextFactoryList.size() = " + contextFactoryList.size());
         /**
          *
@@ -94,7 +99,7 @@ public class FeignApiController {
         System.out.println("requestPort = " + requestPort);
         // 此时由于是getPort()方法内触发Hystrix,执行的降级方法是@HystrixCommand对应的getPortFallbackMethod()、
         // int i = 10 / 0;
-        return requestPort;
+        return currentPort;
     }
 
     @GetMapping("api-user/{id}")

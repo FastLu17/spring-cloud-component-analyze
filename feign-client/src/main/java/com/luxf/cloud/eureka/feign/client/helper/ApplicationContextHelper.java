@@ -3,6 +3,7 @@ package com.luxf.cloud.eureka.feign.client.helper;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.env.Environment;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -31,5 +32,9 @@ public class ApplicationContextHelper implements ApplicationContextAware {
 
     public static <T> Map<String, T> getBeansOfType(@Nullable Class<T> type){
         return context.getBeansOfType(type);
+    }
+
+    public static Environment getEnvironment() {
+        return context.getEnvironment();
     }
 }
