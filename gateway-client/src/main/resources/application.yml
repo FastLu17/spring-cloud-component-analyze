@@ -1,0 +1,32 @@
+server:
+  port: 12345
+
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 开启从注册中心动态创建路由的功能，利用微服务名称进行路由.
+      routes:
+        - id: FEIGN-SERVICE # 路由的id,没有规定规则但要求唯一,建议配合服务名
+          uri: lb://FEIGN-SERVICE # 负载均衡的方式.  http://localhost:11141 -> assign single service
+          predicates:
+            - Path=/open-api/feign-client/secure/**
+          filters:
+            - StripPrefix=1 # 跳过Path的前面1(n)个前缀. real path: /feign-client/secure/**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    hostname: localhost
+  client:
+    service-url:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://localhost:11111/eureka/
+
+
+
