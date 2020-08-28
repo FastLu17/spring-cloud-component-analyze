@@ -1,0 +1,24 @@
+# bootstrap.yml：用于项目初始化时,要保证从配置中心进行配置拉取, 拉取配置之后, 才能保证项目的正常启动.
+# bootstrap.yml的优先级比application.yml高, bootstrap.yml中的属性会被application.yml配置所覆盖. 但是配置在nacos-config-center的配置属性不会被覆盖.
+# 即如果出现同键属性,则nacos-config-center中的属性生效.
+# nacos-config: more detail configuration --> https://nacos.io/zh-cn/docs/quick-start-spring-cloud.html
+spring:
+  application:
+    name: nacos-config-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        file-extension: yaml # default 'properties'
+        server-addr: localhost:8848 # nacos config need this property. 此属性必须配置！
+        # group: DEV_GROUP # default 'DEFAULT_GROUP', mapping nacos-config-center 'Group' property Grid.
+        # namespace: 95945afd-fe9f-4acc-8a0d-819dad862480 # default namespace 'public', value is 'Dev_NameSpace'.id
+
+# DataId,Group,Namespace相当于进行了3层区别。类似3个不同的package.
+
+server:
+  port: 8888
+
+# Nacos Config DataId ：${prefix}-${spring.profiles.active}.${file-extension}
+# prefix：default value is ${spring.application.name}, 也可以通过配置项 spring.cloud.nacos.config.prefix 来配置.

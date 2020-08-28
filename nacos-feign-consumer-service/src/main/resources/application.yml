@@ -1,0 +1,12 @@
+server:
+  port: 9021
+
+spring:
+  application:
+    name: nacos-feign-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+# more configuration --> https://github.com/alibaba/spring-cloud-alibaba/wiki/Nacos-discovery
