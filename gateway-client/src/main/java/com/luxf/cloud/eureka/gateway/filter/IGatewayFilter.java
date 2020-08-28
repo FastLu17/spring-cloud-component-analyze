@@ -3,6 +3,7 @@ package com.luxf.cloud.eureka.gateway.filter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -14,7 +15,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 /**
+ * GatewayFilter的两个生命周期：pre和post.
+ * TODO：在Gateway中, Filter分为两类: 1、{@link GatewayFilter}, 2、{@link GlobalFilter}、 但是最终{@link GlobalFilter}会被代理为{@link GatewayFilter}！
+ * <p>
+ * {@link org.springframework.cloud.gateway.config.GatewayAutoConfiguration#filteringWebHandler(List)} 此处初始化时,会获取容器中所有的{@link GlobalFilter}.
+ * {@link org.springframework.cloud.gateway.handler.FilteringWebHandler#loadFilters(List)}会将所有的{@link GlobalFilter}使用{@link GatewayFilter}代理.
+ * {@link org.springframework.cloud.gateway.handler.FilteringWebHandler#handle(ServerWebExchange)}：通过FilterChain处理所有的{@link GatewayFilter}
+ * 在{@link org.springframework.cloud.gateway.handler.FilteringWebHandler.DefaultGatewayFilterChain#filter(ServerWebExchange)}方法中,依次处理所有的GatewayFilter.
+ * <p>
+ *
  * @author 小66
  * @date 2020-08-27 16:22
  **/
