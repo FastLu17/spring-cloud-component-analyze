@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/flow-limit")
-public class FlowLimitController {
+public class FlowLimitController extends BaseController {
 
     /**
      * {@link SentinelResource#defaultFallback}和{@link SentinelResource#fallback}同时存在时, 只有fallback对应的方法生效.
@@ -53,7 +53,17 @@ public class FlowLimitController {
     }
 
     /**
-     * {@link SentinelResource#defaultFallback}不允许存在任何参数.
+     * 可以利用继承的{@link BaseController#baseDefaultFallback(Throwable)}方法,配置默认{@link SentinelResource#defaultFallback}.
+     */
+    @GetMapping("/d")
+    @SentinelResource(value = "/flow-limit/d", defaultFallback = "baseDefaultFallback")
+    public String testD(Long id) {
+        int z = 5 / 0;
+        return "flow-limit------testD, id is：" + id;
+    }
+
+    /**
+     * {@link SentinelResource#defaultFallback}不允许存在{@link Throwable}以外的任何参数.
      *
      * @return 返回值类型要与方法的相同. 实际中,都是自定义统一的返回值类型。
      */
