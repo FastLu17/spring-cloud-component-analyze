@@ -107,7 +107,7 @@ public class FeignClientApplication {
          * @see RoundRobinRule#incrementAndGetModulo(int)
          *
          * RoundRobinRule有2个直接实现：
-         * @see WeightedResponseTimeRule 根据请求响应时间的权重进行负载均衡.
+         * @see WeightedResponseTimeRule 根据请求响应时间的权重进行负载均衡. 响应时间加权策略！
          * @see ResponseTimeWeightedRule 弃用、推荐{@link WeightedResponseTimeRule}
          */
         roundRobinRule.choose(SERVICE_NAME);
@@ -127,16 +127,16 @@ public class FeignClientApplication {
          *
          * @see BestAvailableRule 最佳可用(最空闲)规则. 跳过带有"跳闸"断路器的服务器并选择并发请求最少的服务器的规则。
          * @see PredicateBasedRule 抽象类、将Server过滤逻辑委派给{@link AbstractServerPredicate}实例的规则. 在实现类中,都维护了{@link AbstractServerPredicate}实例.
-         * @see ZoneAvoidanceRule Ribbon的{@link IRule}接口的默认实现
-         * @see AvailabilityFilteringRule
+         * @see ZoneAvoidanceRule Ribbon的{@link IRule}接口的默认实现, 区域权衡策略
+         * @see AvailabilityFilteringRule 可用过滤策略
          *
-         * TODO：{@link PredicateBasedRule}的2个实现类, 过滤后会调用{@link AbstractServerPredicate#chooseRoundRobinAfterFiltering(List, Object)} --> 该方法的底层依然是使用CAS算法实现轮询。
+         * TODO：{@link PredicateBasedRule}的实现类{@link ZoneAvoidanceRule},没有重写choose()方法, 过滤后会调用{@link AbstractServerPredicate#chooseRoundRobinAfterFiltering(List, Object)} --> 该方法的底层依然是使用CAS算法实现轮询。
          */
         ClientConfigEnabledRoundRobinRule clientConfigRule = new ClientConfigEnabledRoundRobinRule();
         clientConfigRule.choose(SERVICE_NAME);
 
         /**
-         * TODO：高可用规则、内部维护一个{@link LoadBalancerStats}对象,用于统计{@link ILoadBalancer}中的每个Server的相关特性,以便于选出最空闲的Server.
+         * TODO：高可用策略(最低请求数量策略)、内部维护一个{@link LoadBalancerStats}对象,用于统计{@link ILoadBalancer}中的每个Server的相关特性,以便于选出最空闲的Server.
          * 需要通过{@link BestAvailableRule#setLoadBalancer(ILoadBalancer)} 初始化{@link BestAvailableRule#loadBalancerStats}属性, 否则使用父类的RoundRobinRule进行选取、
          * @see BestAvailableRule#loadBalancerStats
          */
