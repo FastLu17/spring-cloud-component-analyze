@@ -12,6 +12,15 @@ spring:
       transport:
         dashboard: localhost:8082 # sentinel.jar server -> ip:port  default port: 8080
         port: 8719  #
+# 有关DataSource的自动配置. com.alibaba.cloud.sentinel.custom.SentinelDataSourceHandler
+      datasource:
+        nacos-ds: # 任意名称
+          nacos: # datasource 类型, zookeeper,apollo,redis,nacos等
+            server-addr: localhost:8848
+            data-id: sentinel-service-flow-rule-nacos-ds
+            group-id: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
 
 management:
   endpoints:
