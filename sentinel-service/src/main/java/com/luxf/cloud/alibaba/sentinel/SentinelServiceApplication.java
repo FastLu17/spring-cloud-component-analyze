@@ -1,5 +1,7 @@
 package com.luxf.cloud.alibaba.sentinel;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
 import com.alibaba.csp.sentinel.property.PropertyListener;
 import com.alibaba.csp.sentinel.slotchain.AbstractLinkedProcessorSlot;
 import com.alibaba.csp.sentinel.slotchain.ProcessorSlotChain;
@@ -20,6 +22,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import java.util.List;
 
 /**
+ * sentinel通过{@link SentinelResourceAspect}这个拦截器处理{@link SentinelResource}注解的逻辑.
+ *
  * <P>sentinel不存在 '半开' 的状态</P>
  * <p>
  * TODO：Spring Cloud Alibaba Sentinel Wiki -> https://github.com/alibaba/spring-cloud-alibaba/wiki/Sentinel

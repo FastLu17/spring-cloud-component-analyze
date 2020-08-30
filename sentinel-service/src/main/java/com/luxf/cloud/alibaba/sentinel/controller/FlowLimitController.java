@@ -1,6 +1,7 @@
 package com.luxf.cloud.alibaba.sentinel.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.luxf.cloud.alibaba.sentinel.handler.GenericBlockExceptionHandler;
 import com.luxf.cloud.alibaba.sentinel.handler.GenericFallback;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * TODO：需要配置持久化,否则重启项目,原先配置对应的5种Rule都会消失。
+ * <p>
+ * {@link SentinelResourceAspect}这个拦截器处理{@link SentinelResource}注解
  *
  * @author 小66
  * @date 2020-08-29 11:27
@@ -63,6 +66,17 @@ public class FlowLimitController extends BaseController {
     }
 
     /**
+     * 测试 sentinel-feign 远程调用.
+     *
+     * @return
+     */
+    @GetMapping("/e")
+    public String testE() {
+        int z = 5 / 0;
+        return "flow-limit------testE";
+    }
+
+    /**
      * {@link SentinelResource#defaultFallback}不允许存在{@link Throwable}以外的任何参数.
      *
      * @return 返回值类型要与方法的相同. 实际中,都是自定义统一的返回值类型。
@@ -83,6 +97,7 @@ public class FlowLimitController extends BaseController {
     public String exceptionHandler(Long id, BlockException ex) {
         // Do some log here.
         return "Trigger BlockHandler! Param is：" + id +
-                ", Resource is：" + ex.getRule().getResource() + ", Exception is：" + ex.getMessage();
+                ", Resource is：" + ex.getRule().getResource() + ", ExceptionName is：" + ex.getClass().getSimpleName()+
+                ", ExceptionMessage is：" + ex.getMessage();
     }
 }

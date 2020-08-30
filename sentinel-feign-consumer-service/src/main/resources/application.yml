@@ -1,0 +1,25 @@
+server:
+  port: 8411
+
+spring:
+  application:
+    name: sentinel-feign-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8082 # sentinel.jar server -> ip:port  default port: 8080
+        port: 8719  #
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+# sentinel\u6574\u5408feign\u5FC5\u987B\u914D\u7F6E\u8BE5\u5C5E\u6027.
+feign:
+  sentinel:
+    enabled: true
