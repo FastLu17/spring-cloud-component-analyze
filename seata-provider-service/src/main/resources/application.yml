@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: seata-provider-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+# seata相关的简单配置.
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: my_test_tx_group # 对应配置文件中的 service.vgroupMapping.xxx = 'default'
+  enable-auto-data-source-proxy: true # 数据源自动代理. 1.2.0版本不知道是否支持HikariDataSource
+  use-jdk-proxy: false
+  config:
+    type: nacos
+    nacos:
+      namespace:
+      serverAddr: 127.0.0.1:8848
+      group: SEATA_GROUP
+      userName: "nacos"
+      password: "nacos"
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 127.0.0.1:8848
+      namespace:
+      userName: "nacos"
+      password: "nacos"
+
