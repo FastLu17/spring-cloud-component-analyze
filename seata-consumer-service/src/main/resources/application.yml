@@ -36,9 +36,20 @@ seata:
   registry:
     type: nacos
     nacos:
-      application: seata-server # 要与seata/conf/registry.conf中的registry.nacos.application值对应！否则一直提示 no available 'default' server..
+      application: seata-server # 要与seata/conf/registry.conf中的registry.nacos.application值对应！否则一直提示 no available service 'null' found, please make sure registry config correct
       server-addr: 127.0.0.1:8848
       namespace:
       userName: "nacos"
       password: "nacos"
+
+# 开启feign的降级功能
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  # 请求连接的超时时间 默认的时间为 1 秒
+  ConnectTimeout: 5000
+  # 请求处理的超时时间
+  ReadTimeout: 5000
 

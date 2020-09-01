@@ -28,7 +28,11 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(Integer num, String productId) {
         orderMapper.createOrder(num, productId);
         // 远程调用出现问题, 如果只使用@Transactional,order表数据回滚,但是storage表的数据不会回滚！
+        // TODO：如果使用了fallback降级,则需要对返回值进行判断, 通过抛出异常来触发全局事务回滚！
         Boolean decrement = storageApiService.decrement(num, productId);
+        if (!decrement) {
+            throw new RuntimeException("Throw Exception To Trigger Global Rollback!");
+        }
         System.out.println("decrement = " + decrement);
         String xid = RootContext.getXID();
         System.out.println("xid = " + xid);

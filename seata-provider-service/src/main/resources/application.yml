@@ -35,7 +35,7 @@ seata:
   registry:
     type: nacos
     nacos:
-      application: seata-server # 要与seata/conf/registry.conf中的registry.nacos.application值对应！否则一直提示 no available 'default' server..
+      application: seata-server # 要与seata/conf/registry.conf中的registry.nacos.application值对应！否则一直提示 no available service 'null' found, please make sure registry config correct
       server-addr: 127.0.0.1:8848
       namespace:
       userName: "nacos"

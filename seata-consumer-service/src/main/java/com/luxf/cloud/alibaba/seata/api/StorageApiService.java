@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author 小66
  * @date 2020-08-31 19:43
  **/
-@FeignClient(value = "seata-provider-service")
+@FeignClient(value = "seata-provider-service",fallbackFactory = StorageApiFallback.class)
 public interface StorageApiService {
 
     @DeleteMapping("/storage")
